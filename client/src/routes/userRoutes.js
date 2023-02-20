@@ -5,7 +5,7 @@ import Home from "../containers/home"
 import Roles from "../containers/roles"
 import Products from "../containers/products"
 import SendOrders from "../containers/sendOrders"
-
+import Login from "../auth/login"
 
 const UserRoutes= ()=> {
   return (
@@ -16,6 +16,7 @@ const UserRoutes= ()=> {
       <Route path="/home" element={<Home />} />
       <Route path="/products" element={<Products />} />
       <Route path="/sendOrders" element={<SendOrders />} />
+      <Route path="/login" element={<Login />} />
 
 
     </Routes>

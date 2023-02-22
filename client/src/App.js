@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import UserRoutes from './routes/userRoutes'
+import ConditionalRoute from './routes/ConditionalRoute';
 
-function App() {
+const App=()=> {
   return (
     <div className="App">
-      <UserRoutes/>
+      <ConditionalRoute/>
     </div>
   );
 }

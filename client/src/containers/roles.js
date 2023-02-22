@@ -1,13 +1,25 @@
 import { useNavigate } from "react-router-dom";
-const Home=()=> {
+import {useSelector , useDispatch} from "react-redux"
+import { assignUserRole } from "../redux/reducers/userSlice"
+
+const Roles=()=> {
 
 const navigate = useNavigate()
-const assignRole = () =>{
+const dispatch = useDispatch()
+const assignRole = (role) =>{
 
     navigate('/home')
+
+    dispatch(assignUserRole(role))
+
 }
+const {userRole} = useSelector(state => state.user)
+
+
+
     return (
       <div className="App">
+      
        <button onClick={()=>assignRole('user')}>User</button>
        <button onClick={()=>assignRole('admin')}>Admin</button>
   
@@ -15,4 +27,7 @@ const assignRole = () =>{
     );
   }
   
-  export default Home;
+  export default Roles;
+
+
+

@@ -12,17 +12,28 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const theme = createTheme();
 
-export default function SignIn() {
+const Login = ()=>{
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      fullName: data.get('fullName'),
-      password: data.get('password'),
       email: data.get('email'),
+      password: data.get('password'),
     });
   };
 
@@ -38,13 +49,21 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar>
+          
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="fullName"
+              label="Full Name"
+              name="fullName"
+              autoComplete="fullName"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -55,20 +74,40 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
+             <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="confirmPassword"
+              id="confirmPassword"
+              autoComplete="confirmPassword"
+            />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
               name="email"
+              label="Email"
+              type="email"
+              id="email"
               autoComplete="email"
-              autoFocus
             />
-            <FormControlLabel
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="address"
+              label="Address"
+              type="address"
+              id="address"
+              autoComplete="address"
+            />
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -77,18 +116,17 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
-            </Grid>
+          
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
@@ -96,3 +134,4 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
+export default Login

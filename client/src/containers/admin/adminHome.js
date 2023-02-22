@@ -1,13 +1,15 @@
 import {Link} from "react-router-dom"
 import {useSelector} from "react-redux"
-const GettingStarted=()=> {
+import React from 'react';
+
+const AdminHome=()=> {
   // const {age} = useSelector(state => state.count)
   // console.log(counter)
   return (
     <div className="App">
-     <Link to="/roles">getting started</Link>
+        Hi I am admin home
     </div>
   );
 }
 
-export default GettingStarted;
+export default AdminHome;

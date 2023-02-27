@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { useNavigate } from 'react-router-dom';
 const theme = createTheme();
 
 const loginSchema = Yup.object().shape({
@@ -24,6 +24,9 @@ const loginSchema = Yup.object().shape({
 });
 
 const UserLogin = () => {
+
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -84,7 +87,7 @@ const UserLogin = () => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
+            <Button type="submit" onClick={()=>navigate('/')} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
             
               <Grid item>
                 <Link href="/register" variant="body2">

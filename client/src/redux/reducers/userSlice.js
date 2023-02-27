@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 export const initialState = {
-    userRole: ''
+    userRole: '',
+    firstTimeUser: true,
 };
 
 const userSlice = createSlice({
@@ -12,8 +13,12 @@ const userSlice = createSlice({
             state.userRole = actions.payload
             
         },
+        setIsFirstTimeUser: (state, actions) => {
+            state.firstTimeUser = false
+            
+        },
     }
 });
 
-export const {assignUserRole} = userSlice.actions;
+export const {assignUserRole,setIsFirstTimeUser} = userSlice.actions;
 export default userSlice.reducer;

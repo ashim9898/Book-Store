@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 function Copyright(props) {
   return (
@@ -27,15 +29,42 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const Login = ()=>{
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+const signupSchema = Yup.object().shape({
+  fullName: Yup.string()
+     .min(2, 'Too Short!')
+     .max(50, 'Too Long!')
+     .required('Required'),
+  password: Yup.string()
+    .min(8, 'Password must be at least 8 characters long')
+    .required('Password is required'),
+  confirmPassword: Yup.string()
+    .min(8, 'Password must be at least 8 characters long')
+    .required('Password is required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  address: Yup.string()
+     .min(2, 'Too Short!')
+     .max(50, 'Too Long!')
+     .required('Required'),
+
+});
+
+const AdminRegister = () => {
+  const formik = useFormik({
+    initialValues: {
+      fullName: '',
+      password: '',
+      confirmPassword: '',
+      email: '',
+      address: '',
+
+    },
+    validationSchema: signupSchema,
+    onSubmit: (values) => {
+      console.log(JSON.stringify(values));
+    },
+    validateOnBlur: true,
+    validateOnChange: true,
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -49,11 +78,10 @@ const Login = ()=>{
             alignItems: 'center',
           }}
         >
-          
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -62,6 +90,11 @@ const Login = ()=>{
               label="Full Name"
               name="fullName"
               autoComplete="fullName"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+              helperText={formik.touched.fullName && formik.errors.fullName}
               autoFocus
             />
             <TextField
@@ -73,8 +106,13 @@ const Login = ()=>{
               type="password"
               id="password"
               autoComplete="current-password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
-             <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -82,7 +120,12 @@ const Login = ()=>{
               label="Confirm Password"
               type="confirmPassword"
               id="confirmPassword"
-              autoComplete="confirmPassword"
+              autoComplete="current-password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
             <TextField
               margin="normal"
@@ -93,6 +136,11 @@ const Login = ()=>{
               type="email"
               id="email"
               autoComplete="email"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
             <TextField
               margin="normal"
@@ -103,24 +151,14 @@ const Login = ()=>{
               type="address"
               id="address"
               autoComplete="address"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
+            
               <Grid item>
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -134,4 +172,4 @@ const Login = ()=>{
     </ThemeProvider>
   );
 }
-export default Login
+export default AdminRegister

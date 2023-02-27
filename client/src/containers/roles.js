@@ -8,7 +8,7 @@ const navigate = useNavigate()
 const dispatch = useDispatch()
 const assignRole = (role) =>{
 
-    navigate('/home')
+    navigate('/')
 
     dispatch(assignUserRole(role))
 

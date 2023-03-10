@@ -10,6 +10,7 @@ import UserLogin from "../containers/auth/userLogin";
 import UserRegister from "../containers/auth/userRegister";
 import AdminLogin from "../containers/auth/adminLogin";
 import AdminRegister from "../containers/auth/adminRegister";
+import Orders from "../containers/orders";
 
 const ConditionalRoute = () => {
   const { userRole,firstTimeUser } = useSelector(state => state.user);
@@ -47,6 +48,7 @@ const UserRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/products" element={<Products />} />
       <Route path="/sendOrders" element={<SendOrders />} />
+      <Route path="/orders" element={<Orders />} />
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
     </Routes>

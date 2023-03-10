@@ -3,7 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 export const initialState = {
     userRole: '',
     firstTimeUser: true,
-    isLoggedIn: true,
+    isLoggedIn: false,
     token:'',
 };
 
@@ -19,8 +19,11 @@ const userSlice = createSlice({
             state.firstTimeUser = false
             
         },
+        setLoginDetails: (state,actions)=>{
+            state.isLoggedIn = !state.isLoggedIn
+        }
     }
 });
 
-export const {assignUserRole,setIsFirstTimeUser} = userSlice.actions;
+export const {assignUserRole,setIsFirstTimeUser,setLoginDetails} = userSlice.actions;
 export default userSlice.reducer;

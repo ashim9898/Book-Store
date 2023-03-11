@@ -15,7 +15,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { setLoginDetails } from '../../redux/reducers/userSlice';
 import {useDispatch} from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const theme = createTheme();
 
 const loginSchema = Yup.object().shape({
@@ -28,7 +28,8 @@ const loginSchema = Yup.object().shape({
 const UserLogin = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
-
+  let {state} = useLocation();
+  console.log(state)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -37,9 +38,14 @@ const UserLogin = () => {
 
     validationSchema: loginSchema,
     onSubmit: (values) => {
-
+      debugger;
       dispatch(setLoginDetails())
-      navigate('/')
+      if(state?.redirect_to==='home'){
+        navigate('/')
+      }else{
+        navigate('/orders')
+      }
+      
 
     },
     validateOnBlur: true,

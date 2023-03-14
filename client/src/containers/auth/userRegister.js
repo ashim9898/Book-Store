@@ -34,6 +34,10 @@ const signupSchema = Yup.object().shape({
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('Required'),
+  userName: Yup.string()
+     .min(2, 'Too Short!')
+     .max(50, 'Too Long!')
+     .required('Required'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters long')
     .required('Password is required'),
@@ -45,7 +49,7 @@ const signupSchema = Yup.object().shape({
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('Required'),
-  gender: Yup.string()
+  phoneNumber: Yup.string()
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('Required'),
@@ -56,11 +60,12 @@ const UserRegister = () => {
   const formik = useFormik({
     initialValues: {
       fullName: '',
+      userName:'',
       password: '',
       confirmPassword: '',
       email: '',
       address: '',
-      gender: '',
+      phoneNumber: '',
 
     },
     validationSchema: signupSchema,
@@ -69,7 +74,7 @@ const UserRegister = () => {
       const requestOptions={
         method:'POST',
         headers: {'Content-Type': 'application/json'},
-        body: values
+        body: JSON.stringify(values)
       }
       fetch('http://localhost:5000/register', requestOptions)
     },
@@ -106,6 +111,21 @@ const UserRegister = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.fullName && Boolean(formik.errors.fullName)}
               helperText={formik.touched.fullName && formik.errors.fullName}
+              autoFocus
+            />
+             <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="userName"
+              label="User Name"
+              name="userName"
+              autoComplete="userName"
+              value={formik.values.userName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.userName && Boolean(formik.errors.userName)}
+              helperText={formik.touched.userName && formik.errors.userName}
               autoFocus
             />
             <TextField
@@ -172,16 +192,16 @@ const UserRegister = () => {
               margin="normal"
               required
               fullWidth
-              name="gender"
-              label="gender"
-              type="gender"
-              id="gender"
-              autoComplete="gender"
-              value={formik.values.gender}
+              name="phoneNumber"
+              label="phone Number"
+              type="phoneNumber"
+              id="phoneNumber"
+              autoComplete="phoneNumber"
+              value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.gender && Boolean(formik.errors.gender)}
-              helperText={formik.touched.gender && formik.errors.gender}
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
             

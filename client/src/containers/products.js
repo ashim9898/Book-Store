@@ -29,7 +29,7 @@ const Products=()=> {
         productList.map((item)=>{
           return(
             <div className="Card">
-
+              
               <img src={item.image} width={80} height={80}/>
              {item.name}
               {item.price}

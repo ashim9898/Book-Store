@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const port = 5000
 const { Schema } = mongoose;
+require('dotenv').config()
 const cors = require ('cors')
 
 app.use(cors())
@@ -39,9 +41,25 @@ const userSchema = new Schema({
 const Users = mongoose.model('Users',userSchema)
 
 app.post('/register',async (req,res)=>{
-    
-   const data = await Users.create(req.body)
-   console.log(data)
+try{
+   const data =  await Users.create(req.body)
+   if(data){
+    res.send('User Registered Successfully')
+   }else{
+    res.send('Regsitration Failed')
+   }
+}catch(err){
+    console.log("err"+err)
+}
+})
+
+app.post('/login',async (req,res)=>{
+    jwt.sign({name: req.body.userName}, process.env.SECRET_KEY, function(err,token){
+        res.json({
+            msg: "token generated",
+            token: token
+        })
+    });
 })
 
 app.listen(port,()=>{

@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 import { setLoginDetails } from '../../redux/reducers/userSlice';
 import {useDispatch} from "react-redux";
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from "axios"
 const theme = createTheme();
 
 const loginSchema = Yup.object().shape({
@@ -38,7 +39,7 @@ const UserLogin = () => {
 
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      debugger;
+      
       dispatch(setLoginDetails())
       if(state?.redirect_to==='home'){
         navigate('/')

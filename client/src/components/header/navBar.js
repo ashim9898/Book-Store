@@ -138,13 +138,8 @@ const NavBar=()=> {
             <Tooltip title={isLoggedIn ? "Open Settings":"Login"}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               {/* {isLoggedIn?  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <LoginIcon  style={{color: 'white'}}/>} */}
-             {isLoggedIn? <Avatar  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />:<LoginIcon onClick={()=>navigate('/login',{ 
-              state:{
-                redirect_to: "home"
-                }
-              }
-              
-              )} style={{color:'white'}}/>}
+             {isLoggedIn?( <Avatar  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                ):(<LoginIcon onClick={()=>navigate('/login')} style={{color:'white'}}/>)}
               </IconButton>
             </Tooltip>
             <Menu

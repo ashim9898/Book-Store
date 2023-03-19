@@ -13,31 +13,22 @@ import AdminRegister from "../containers/auth/adminRegister";
 import Orders from "../containers/orders";
 
 const ConditionalRoute = () => {
-  const { userRole,firstTimeUser } = useSelector(state => state.user);
+  const { userRole,firstTimeUser, token} = useSelector(state => state.user);
 
   if (userRole === 'user') {
     return <UserRoutes />;
   } else if(userRole === 'admin'){
     return <AdminRoutes />;
-  }else if(firstTimeUser){
-    return <FirstUserRoutes/>
   }
-  return <DefaultRoutes/>
 };
 
-const FirstUserRoutes = ()=> {
-  return(
-    <Routes>
-    <Route path="/" element={<GettingStarted />} />
-    </Routes>
-  )
-}
 
-const DefaultRoutes = ()=>{
+
+
+
+const PageNotFound = () =>{
   return(
-    <Routes>
-      <Route path="/" element={<Roles />} />
-    </Routes>
+    <h1>Page not found</h1>
   )
 }
 
@@ -51,6 +42,7 @@ const UserRoutes = () => {
       <Route path="/orders" element={<Orders />} />
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };

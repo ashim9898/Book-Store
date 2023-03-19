@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import {useNavigate} from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 function Copyright(props) {
@@ -58,6 +59,7 @@ const signupSchema = Yup.object().shape({
 });
 
 const UserRegister = () => {
+  const {userRole} = useSelector((state)=>state.user);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -68,6 +70,7 @@ const UserRegister = () => {
       email: '',
       address: '',
       phoneNumber: '',
+      userRole: userRole,
 
     },
     validationSchema: signupSchema,
@@ -209,6 +212,8 @@ const UserRegister = () => {
               error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
               helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             />
+             
+
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
             
               <Grid item>

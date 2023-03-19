@@ -30,21 +30,33 @@ const UserLogin = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   let {state} = useLocation();
-  console.log(state)
+ 
+  const triggerLogin = async (values)=>{
+    
+    const res = await axios.post(`http://localhost:5000/login`,values)
+    if(res.status==200){
+      console.log(res.data.token)
+      dispatch(setLoginDetails(res.data.token))
+      
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
 
+    
+
     validationSchema: loginSchema,
     onSubmit: (values) => {
+      triggerLogin(values)
       
-      dispatch(setLoginDetails())
-      if(state?.redirect_to==='home'){
-        navigate('/')
-      }else{
+      if(state?.onSuccessNavigation==='/orders'){
         navigate('/orders')
+      }else{
+        navigate('/')
       }
       
 

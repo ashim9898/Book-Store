@@ -14,7 +14,7 @@ const Products=()=> {
       if(isLoggedIn){
         navigate('/orders')
       }else{
-        navigate('/login')
+        navigate('/login', {state:{onSuccessNavigation:"/orders"}});
       }
     }
 

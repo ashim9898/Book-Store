@@ -20,7 +20,9 @@ const userSlice = createSlice({
             
         },
         setLoginDetails: (state,actions)=>{
+           
             state.isLoggedIn = !state.isLoggedIn
+           state.token = actions.payload
         }
     }
 });

@@ -35,6 +35,7 @@ const userSchema = new Schema({
     password: {type: String},
     confirmPassword: {type: String},
     email: {type: String},
+    userRole: {type: String},
     address: {type: String},
     phoneNumber: {type: Number},
 });

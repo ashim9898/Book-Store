@@ -14,14 +14,20 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { setLoginDetails } from '../../redux/reducers/userSlice';
+import { setAlertMessages } from '../../redux/reducers/notifySlice';
+
 import {useDispatch} from "react-redux";
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios"
+import SnackBar from "../../components/alerts/snackBar"
 const theme = createTheme();
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string()
+  phoneNumber: Yup.string()
+  .min(2, 'Too Short!')
+  .max(50, 'Too Long!')
+  .required('Required'),
+password: Yup.string()
     .min(8, 'Password must be at least 8 characters long')
     .required('Password is required'),
 });
@@ -35,22 +41,22 @@ const UserLogin = () => {
     
     const res = await axios.post(`http://localhost:5000/login`,values)
     if(res.status==200){
-      console.log(res.data.token)
-      dispatch(setLoginDetails(res.data.token))
-      
+      dispatch(setLoginDetails(res.data.token))     
+      dispatch(setAlertMessages(res.data.messge))
+  
     }
   }
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      phoneNumber: '',
       password: '',
     },
 
     
 
     validationSchema: loginSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       triggerLogin(values)
       
       if(state?.onSuccessNavigation==='/orders'){
@@ -85,15 +91,16 @@ const UserLogin = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={formik.values.email}
+              id="phoneNumber"
+              label="Phone Number"
+              name="phoneNumber"
+              autoComplete="phoneNumber"
+              placeholder="Enter No. or Email or User Name"
+              value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
               autoFocus
             />
             <TextField
@@ -104,6 +111,7 @@ const UserLogin = () => {
               label="Password"
               type="password"
               id="password"
+              placeholder="Enter your Password"
               autoComplete="current-password"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -121,9 +129,12 @@ const UserLogin = () => {
           
           </Box>
         </Box>
-       
+
+
       </Container>
     </ThemeProvider>
+  
+ 
   );
 }
 export default UserLogin

@@ -139,7 +139,11 @@ const NavBar=()=> {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               {/* {isLoggedIn?  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <LoginIcon  style={{color: 'white'}}/>} */}
              {isLoggedIn?( <Avatar  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                ):(<LoginIcon onClick={()=>navigate('/login')} style={{color:'white'}}/>)}
+                ):(
+                <LoginIcon 
+                onClick={()=>
+                navigate('/login')}
+                 style={{color:'white'}}/>)}
               </IconButton>
             </Tooltip>
             <Menu

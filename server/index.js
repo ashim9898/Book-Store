@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10
 const jwt = require('jsonwebtoken');
 const port = 5000
 const { Schema } = mongoose;
@@ -41,26 +43,56 @@ const userSchema = new Schema({
 });
 const Users = mongoose.model('Users',userSchema)
 
-app.post('/register',async (req,res)=>{
+app.post('/register', async (req,res)=>{
 try{
-   const data =  await Users.create(req.body)
-   if(data){
-    res.send('User Registered Successfully')
-   }else{
-    res.send('Regsitration Failed')
-   }
+    bcrypt.hash(req.body.password, saltRounds).then( async function(hash){
+        req.body.password = hash
+       
+            const data =  await Users.create(req.body)
+            if(data){
+                res.json({
+                    message: "registration successfull"
+                })
+            }else{
+                res.send('Regsitration Failed')
+            }
+                });
+
 }catch(err){
     console.log("err"+err)
 }
 })
 
 app.post('/login',async (req,res)=>{
-    jwt.sign({name: req.body.userName}, process.env.SECRET_KEY, function(err,token){
+    //first we need to check if the req.body.phoneNumber exist in the db
+    const data = await Users.findOne({phoneNumber: req.body.phoneNumber})
+    if(data){
+    bcrypt.compare(req.body.password, data.password, function(err,result){
+        if(result){
+            res.json({
+                message:"login successful"
+            })
+        }else{
+            res.json({
+                message: "Invalid Password"
+            })
+        }
+    })
+    }else{
         res.json({
-            msg: "token generated",
-            token: token
+            msg: "No data here"
         })
-    });
+    }
+    //if doesnot exist res.json ->msg
+    // bcrypt.compare(req.body.password, hash, function(err,result){
+
+    // })
+    // jwt.sign({userName: req.body.userName}, process.env.SECRET_KEY, function(err,token){
+    //     res.json({
+    //         msg: "token generated",
+    //         token: token
+    //     })
+    // });
 })
 
 app.listen(port,()=>{

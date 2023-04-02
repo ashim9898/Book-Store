@@ -13,8 +13,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import {useNavigate} from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { setAlertMessages } from '../../redux/reducers/notifySlice';
 
 function Copyright(props) {
   return (
@@ -60,6 +61,7 @@ const signupSchema = Yup.object().shape({
 
 const UserRegister = () => {
   const {userRole} = useSelector((state)=>state.user);
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -82,9 +84,10 @@ const UserRegister = () => {
         body: JSON.stringify(values)
       }
       const res = await fetch('http://localhost:5000/register', requestOptions)
-      console.log(res.status)
-      if(res.status == 200){
+      const data = await res.json()
       navigate('/login')
+      if(res.status == 200){
+       dispatch(setAlertMessages(data.message))
       }
     },
     validateOnBlur: true,

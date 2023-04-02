@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 function Copyright(props) {
@@ -49,6 +50,7 @@ const signupSchema = Yup.object().shape({
 });
 
 const AdminRegister = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -60,7 +62,8 @@ const AdminRegister = () => {
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
-      console.log(JSON.stringify(values));
+      // console.log(JSON.stringify(values));
+    navigate('')
     },
     validateOnBlur: true,
     validateOnChange: true,

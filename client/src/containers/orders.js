@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
+
 import * as Yup from 'yup';
 
 function Copyright(props) {
@@ -34,33 +35,32 @@ const signupSchema = Yup.object().shape({
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('Required'),
-  password: Yup.string()
-    .min(8, 'Password must be at least 8 characters long')
-    .required('Password is required'),
-  confirmPassword: Yup.string()
-    .min(8, 'Password must be at least 8 characters long')
-    .required('Password is required'),
+ 
+ 
+ 
   email: Yup.string().email('Invalid email').required('Required'),
   address: Yup.string()
      .min(2, 'Too Short!')
      .max(50, 'Too Long!')
      .required('Required'),
-
+  phoneNumber: Yup.string()
+     .min(2, 'Too Short!')
+     .max(50, 'Too Long!')
+     .required('Required'),
+  productName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
 });
 
-const AdminRegister = () => {
+const Orders = () => {
+  
   const formik = useFormik({
-    initialValues: {
-      fullName: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      address: '',
-
-    },
+    initialValues: {},
     validationSchema: signupSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(JSON.stringify(values));
+     
     },
     validateOnBlur: true,
     validateOnChange: true,
@@ -97,36 +97,7 @@ const AdminRegister = () => {
               helperText={formik.touched.fullName && formik.errors.fullName}
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirmPassword"
-              label="Confirm Password"
-              type="confirmPassword"
-              id="confirmPassword"
-              autoComplete="current-password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
+            
             <TextField
               margin="normal"
               required
@@ -136,11 +107,11 @@ const AdminRegister = () => {
               type="email"
               id="email"
               autoComplete="email"
-              value={formik.values.password}
+              value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
               margin="normal"
@@ -151,11 +122,57 @@ const AdminRegister = () => {
               type="address"
               id="address"
               autoComplete="address"
-              value={formik.values.password}
+              value={formik.values.address}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              error={formik.touched.address && Boolean(formik.errors.address)}
+              helperText={formik.touched.address && formik.errors.address}
+            />
+              <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="phoneNumber"
+              label="phone Number"
+              type="phoneNumber"
+              id="phoneNumber"
+              autoComplete="phoneNumber"
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+            />
+             
+             <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="productName"
+              label="Product Name"
+              type="productName"
+              id="productName"
+              autoComplete="productName"
+              value={formik.values.productName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.productName && Boolean(formik.errors.productName)}
+              helperText={formik.touched.productName && formik.errors.productName}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="date"
+              label=""
+              type="date"
+              id="date"
+              autoComplete="date"
+              value={formik.values.date}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.date && Boolean(formik.errors.date)}
+              helperText={formik.touched.date && formik.errors.date}
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
             
@@ -172,4 +189,4 @@ const AdminRegister = () => {
     </ThemeProvider>
   );
 }
-export default AdminRegister
+export default Orders

@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const checkFieldType = require('./utils/checkFieldType')
 const saltRounds = 10
 const jwt = require('jsonwebtoken');
 const port = 5000
@@ -64,8 +65,9 @@ try{
 })
 
 app.post('/login',async (req,res)=>{
+    const loginKey= checkFieldType(req.body.loginKey)
     //first we need to check if the req.body.phoneNumber exist in the db
-    const data = await Users.findOne({phoneNumber: req.body.phoneNumber})
+    const data = await Users.findOne({[loginKey]: req.body.loginKey})
     if(data){
     bcrypt.compare(req.body.password, data.password, function(err,result){
         if(result){

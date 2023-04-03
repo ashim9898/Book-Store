@@ -23,9 +23,7 @@ import SnackBar from "../../components/alerts/snackBar"
 const theme = createTheme();
 
 const loginSchema = Yup.object().shape({
-  phoneNumber: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
+  loginKey: Yup.string()
   .required('Required'),
 password: Yup.string()
     .min(8, 'Password must be at least 8 characters long')
@@ -42,14 +40,14 @@ const UserLogin = () => {
     const res = await axios.post(`http://localhost:5000/login`,values)
     if(res.status==200){
       dispatch(setLoginDetails(res.data.token))     
-      dispatch(setAlertMessages(res.data.messge))
+      dispatch(setAlertMessages(res.data.message))
   
     }
   }
 
   const formik = useFormik({
     initialValues: {
-      phoneNumber: '',
+      loginKey: '',
       password: '',
     },
 
@@ -58,6 +56,7 @@ const UserLogin = () => {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       triggerLogin(values)
+      
       
       if(state?.onSuccessNavigation==='/orders'){
         navigate('/orders')
@@ -91,16 +90,16 @@ const UserLogin = () => {
               margin="normal"
               required
               fullWidth
-              id="phoneNumber"
-              label="Phone Number"
-              name="phoneNumber"
-              autoComplete="phoneNumber"
+              id="loginKey"
+              label="loginKey"
+              name="loginKey"
+              autoComplete="loginKey"
               placeholder="Enter No. or Email or User Name"
-              value={formik.values.phoneNumber}
+              value={formik.values.loginKey}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+              error={formik.touched.loginKey && Boolean(formik.errors.loginKey)}
+              helperText={formik.touched.loginKey && formik.errors.loginKey}
               autoFocus
             />
             <TextField

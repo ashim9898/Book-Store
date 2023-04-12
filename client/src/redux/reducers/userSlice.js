@@ -5,6 +5,7 @@ export const initialState = {
     firstTimeUser: true,
     isLoggedIn: false,
     token:'',
+    id:''
 };
 
 const userSlice = createSlice({
@@ -20,9 +21,13 @@ const userSlice = createSlice({
             
         },
         setLoginDetails: (state,actions)=>{
-           
+            if(actions.payload){
+            const {token,id} = actions.payload
+            state.token = token
+            state.id = id
+            }
             state.isLoggedIn = !state.isLoggedIn
-            state.token = actions.payload
+           
         }
     }
 });

@@ -15,6 +15,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { useParams,useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -33,38 +34,72 @@ const theme = createTheme();
 
 const signupSchema = Yup.object().shape({
   fullName: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required'),
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
   productName: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required'),
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
   address: Yup.string()
-     .min(2, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('Required'),
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
   phoneNumber: Yup.string()
-     .min(2, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('Required'),
- 
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
 });
 
-const Orders = () => {
-  const {id} = useSelector(state=>state.user)
+const UpdateOrders = () => {
+//   const [fullName, setFullName] = React.useState('');
+//   const [productname, setProductName] = React.useState('')
+//   const [address, setAddress] = React.useState('')
+//   const [phonenumber, setPhoneNumber] = React.useState('')
+//   const [date, setDate] = React.useState('')
+
+  const params = useParams();
+  const navigate = useNavigate();
+  const fetchOrders = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/order/${params.id}`);
+    const data = await res.json()
+    formik.setValues({
+        fullName: data.result.fullName,
+        productName: data.result.productName,
+        address:data.result.address,
+        phoneNumber:data.result.phoneNumber,
+        date:data.result.date
+      });
+    } catch (e) {
+      console.log('Error:', e);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchOrders();
+  }, []);
+
   const formik = useFormik({
-    initialValues: {},
+    initialValues: {
+      fullName: '',
+      productName: '',
+      address:'',
+      phoneNumber:'',
+      date:'',
+    },
     validationSchema: signupSchema,
     onSubmit: async (values) => {
-      const formFields = {...values, userId: id}
-      const res = await axios.post(`http://localhost:5000/orders`,formFields)
-    if(res.status==200){
-      console.log(res)
-
-  
-    }
-  
+     const result=await fetch(`http://localhost:5000/order/${params.id}`,{
+        method:'Put',
+        body:JSON.stringify(values),
+        headers:{
+            'Content-Type':'Application/json'
+        }
+     })
+     const res = await result.json()
+     console.log(res)
+     navigate('/ordersList')
     },
     validateOnBlur: true,
     validateOnChange: true,
@@ -166,13 +201,9 @@ const Orders = () => {
               error={formik.touched.date && Boolean(formik.errors.date)}
               helperText={formik.touched.date && formik.errors.date}
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Submit</Button>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Update Product</Button>
             
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              
           
           </Box>
         </Box>
@@ -181,4 +212,4 @@ const Orders = () => {
     </ThemeProvider>
   );
 }
-export default Orders
+export default UpdateOrders

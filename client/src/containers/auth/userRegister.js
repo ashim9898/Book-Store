@@ -16,6 +16,7 @@ import {useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { setAlertMessages } from '../../redux/reducers/notifySlice';
+import { setUserName } from '../../redux/reducers/userDetailsSlice';
 
 function Copyright(props) {
   return (
@@ -85,9 +86,11 @@ const UserRegister = () => {
       }
       const res = await fetch('http://localhost:5000/register', requestOptions)
       const data = await res.json()
+      
       navigate('/login')
       if(res.status == 200){
        dispatch(setAlertMessages(data.message))
+       
       }
     },
     validateOnBlur: true,

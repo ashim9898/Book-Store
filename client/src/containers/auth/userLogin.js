@@ -15,6 +15,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { setLoginDetails } from '../../redux/reducers/userSlice';
 import { setAlertMessages } from '../../redux/reducers/notifySlice';
+import { setUserName } from '../../redux/reducers/userDetailsSlice';
 
 import {useDispatch} from "react-redux";
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -39,8 +40,9 @@ const UserLogin = () => {
     
     const res = await axios.post(`http://localhost:5000/login`,values)
     if(res.status==200){
-      dispatch(setLoginDetails(res.data.token))     
+      dispatch(setLoginDetails({id: res.data.id,token: res.data.token}))     
       dispatch(setAlertMessages(res.data.message))
+
   
     }
   }

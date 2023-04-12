@@ -5,7 +5,7 @@ const Home=()=> {
       <div className="App">
         <NavBar/>
        <Link to="/products">See Products</Link>
-       <button>View Orders</button>
+       <Link to="/ordersList">See Products</Link>
   
       </div>
     );

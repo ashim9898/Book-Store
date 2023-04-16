@@ -1,8 +1,17 @@
 import React from 'react';
 import '../App.css'
 import {Link} from 'react-router-dom'
+import { Button } from '@mui/material';
+import axios from 'axios';
 const MyOrders = (props) => {
-  console.log(props.item); // add this line
+
+const deleteOrder=(id)=>{
+  console.log(id)
+  const result = axios.delete(`http://localhost:5000/deleteOrder/${id}`)
+  if(result){
+    props.fetchOrders()
+  }
+}
 
   return (
     
@@ -23,7 +32,9 @@ const MyOrders = (props) => {
               <td>{props.item.productName}</td>
               <td>{props.item.address}</td>
               <td>{props.item.date}</td>
-              <td><Link to={`/updateOrders/${props.item._id}`}>Update</Link></td>
+              <td>
+                <Button onClick={()=>deleteOrder(props.item._id)}>Delete</Button>
+                <Link to={`/updateOrders/${props.item._id}`}>Update</Link></td>
             </tr>
         
           

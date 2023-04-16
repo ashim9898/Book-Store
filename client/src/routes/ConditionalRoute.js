@@ -63,8 +63,8 @@ const UserRoutes = () => {
 const AdminRoutes = () => {
   return (
     <Routes>
-      <Route path="/home" element={<AdminHome />} /> 
-      <Route path="/" element={<AdminLogin />} />
+      <Route path="/" element={<AdminHome />} /> 
+      <Route path="/login" element={<AdminLogin />} />
       <Route path="/register" element={<AdminRegister />} />
     </Routes>
   );

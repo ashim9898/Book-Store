@@ -9,7 +9,13 @@ const Roles = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const assignRole = (role) => {
+    if(role='user'){
     navigate("/");
+    }
+    if(role='admin'){
+      navigate("/login");
+
+    }
     dispatch(assignUserRole(role));
   };
   const { userRole } = useSelector((state) => state.user);

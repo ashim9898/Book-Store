@@ -53,10 +53,12 @@ const signupSchema = Yup.object().shape({
 
 const Orders = () => {
   const {id} = useSelector(state=>state.user)
+  console.log(id)
   const formik = useFormik({
     initialValues: {},
     validationSchema: signupSchema,
     onSubmit: async (values) => {
+      
       const formFields = {...values, userId: id}
       const res = await axios.post(`http://localhost:5000/orders`,formFields)
     if(res.status==200){

@@ -17,7 +17,7 @@ import { setLoginDetails } from '../../redux/reducers/userSlice';
 import { setAlertMessages } from '../../redux/reducers/notifySlice';
 import { setUserName } from '../../redux/reducers/userDetailsSlice';
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios"
 import SnackBar from "../../components/alerts/snackBar"
@@ -32,13 +32,14 @@ password: Yup.string()
 });
 
 const UserLogin = () => {
+  const {userRole} = useSelector(state=>state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate();
   let {state} = useLocation();
  
   const triggerLogin = async (values)=>{
     
-    const res = await axios.post(`http://localhost:5000/login`,values)
+    const res = await axios.post(`http://localhost:5000/login`,{...values, userRole})
     if(res.status==200){
       dispatch(setLoginDetails({id: res.data.id,token: res.data.token}))     
       dispatch(setAlertMessages(res.data.message))

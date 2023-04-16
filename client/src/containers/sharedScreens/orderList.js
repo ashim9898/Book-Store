@@ -20,7 +20,7 @@ const OrderList = () => {
     <NavBar/>
 
     {orderList.map((item, id) => {
-      return <MyOrders item={item}/>
+      return <MyOrders item={item} fetchOrders={fetchOrders}/>
     })}
     </div>
   )

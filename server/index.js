@@ -95,6 +95,11 @@ app.put("/order/:id",async (req,res)=>{
            })
 })
 
+app.delete("/deleteOrder/:id",async(req,res)=>{
+    const result=await Orders.deleteOne({_id:req.params.id})
+    res.send(result)
+})
+
 app.get('/orders/:userId',async(req,res)=>{
     //const newOrders = await Orders.create(req.body)
     try{
@@ -128,11 +133,10 @@ app.get("/order/:id",async(req,res)=>{
 
 app.post('/login',async (req,res)=>{
     try{
-        console.log(req.body.loginKey)
         const fieldKey= checkFieldType(req.body.loginKey)
         const token = GenerateJwt(fieldKey, req.body.loginKey)
-        //first we need to check if the req.body.phoneNumber exist in the db
-        const data = await Users.findOne({[fieldKey]: req.body.loginKey})
+        const data = await Users.findOne({[fieldKey]: req.body.loginKey, userRole: req.body.userRole})
+        console.log(data, req.body)
         if(data){
             
         bcrypt.compare(req.body.password, data.password, function(err,result){
@@ -149,24 +153,13 @@ app.post('/login',async (req,res)=>{
             }
         })
         }else{
-            res.json({
+            res.status(403).json({
                 msg: "No data here"
             })
         }
     }catch(err){
         console.log(err)
     }
-    
-    //if doesnot exist res.json ->msg
-    // bcrypt.compare(req.body.password, hash, function(err,result){
-
-    // })
-    // jwt.sign({userName: req.body.userName}, process.env.SECRET_KEY, function(err,token){
-    //     res.json({
-    //         msg: "token generated",
-    //         token: token
-    //     })
-    // });
 })
 
 
